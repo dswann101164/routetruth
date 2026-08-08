@@ -4,208 +4,322 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>RouteTruth | Profit Intelligence for FedEx Ground ISPs</title>
-<meta name="description" content="See exactly what each driver earns you, what you pay them, and what's left. Built for FedEx Ground ISP contractors.">
+<meta name="description" content="Turn your FedEx settlement and operating data into daily profit intelligence for every route, driver, and day. Built for FedEx Ground ISP contractors.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --navy:#13162f;--navy2:#1a1d3a;
-  --brand:#4253f0;--brand2:#5b6bf5;
-  --green:#22c55e;--green2:#4ade80;
-  --orange:#f97316;
-  --white:#ffffff;--gray50:#f9fafb;--gray100:#f3f4f6;--gray200:#e5e7eb;
-  --gray400:#9ca3af;--gray500:#6b7280;--gray600:#4b5563;--gray700:#374151;
-  --gray900:#111827;
+  --rt-green:#064d32;--rt-green-dark:#043b27;--rt-gold:#d6a83f;
+  --rt-cream:#fbf8f1;--rt-white:#ffffff;--rt-text:#161616;
+  --rt-muted:#5f625f;--rt-border:#dfe4df;
 }
-body{font-family:'Poppins',sans-serif;color:var(--gray900);overflow-x:hidden;-webkit-font-smoothing:antialiased;background:var(--white)}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,Arial,sans-serif;color:var(--rt-text);background:var(--rt-cream);-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:inherit}
 
-/* NAV — white bg, dark text, matching FleetWage exactly */
-header{position:sticky;top:0;z-index:50;border-bottom:1px solid var(--gray100);background:rgba(255,255,255,0.95);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
-.nav-inner{max-width:1200px;margin:0 auto;padding:16px 32px;display:flex;justify-content:space-between;align-items:center}
-.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--navy)}
-.logo-icon{width:36px;height:36px;background:var(--brand);border-radius:10px;display:flex;align-items:center;justify-content:center}
-.logo-icon svg{width:20px;height:20px}
-.logo-text{font-size:18px;font-weight:700;color:var(--navy);letter-spacing:-0.3px}
-.logo-text span{color:var(--brand)}
-.nav-links{display:flex;gap:28px;align-items:center}
-.nav-links a{color:var(--gray600);text-decoration:none;font-size:14px;font-weight:500;transition:color 0.2s}
-.nav-links a:hover{color:var(--navy)}
-.nav-links a.signin{color:var(--brand);font-weight:600}
-.btn-cta{padding:10px 20px;border-radius:8px;border:none;font-size:14px;font-weight:600;font-family:'Poppins',sans-serif;cursor:pointer;background:var(--brand);color:var(--white);transition:all 0.2s}
-.btn-cta:hover{background:var(--brand2);transform:translateY(-1px)}
+.top-bar{background:var(--rt-green);color:#fff;padding:14px 32px;text-align:center;font-size:15px;letter-spacing:.01em;position:relative}
+.top-bar .star{color:var(--rt-gold);margin-right:8px}
+.top-bar .signin-top{position:absolute;right:32px;top:14px;color:rgba(255,255,255,.85);text-decoration:none;font-size:14px}
 
-/* HERO — dark navy with subtle gradient shift */
-.hero{background:var(--navy);background:linear-gradient(to right bottom,var(--navy) 0%,var(--navy) 50%,rgba(66,83,240,0.15) 100%);background-size:200% 200%;animation:gradientShift 8s ease infinite;padding:112px 0;text-align:center;position:relative;overflow:hidden}
-@keyframes gradientShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
-.hero-inner{max-width:720px;margin:0 auto;padding:0 32px;position:relative;z-index:1}
-.badge{display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border-radius:100px;background:rgba(66,83,240,0.12);border:1px solid rgba(66,83,240,0.2);color:var(--brand2);font-size:13px;font-weight:500;margin-bottom:24px}
-.badge .dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
-.hero h1{font-size:60px;font-weight:700;line-height:1;letter-spacing:-1.5px;color:var(--white);margin-bottom:20px}
-.hero h1 em{font-style:italic;color:var(--brand2)}
-.hero p{font-size:17px;color:rgba(255,255,255,0.65);line-height:1.7;max-width:540px;margin:0 auto 32px;font-weight:400}
-.hero-cta{display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:12px}
-.btn-hero{padding:14px 32px;border-radius:8px;border:none;font-size:15px;font-weight:600;font-family:'Poppins',sans-serif;cursor:pointer;background:var(--brand);color:var(--white);transition:all 0.2s;box-shadow:0 4px 14px rgba(66,83,240,0.35)}
-.btn-hero:hover{background:var(--brand2);transform:translateY(-1px);box-shadow:0 6px 20px rgba(66,83,240,0.45)}
-.trial-text{text-align:left;font-size:13px;line-height:1.5}
-.trial-text strong{color:rgba(255,255,255,0.85);font-weight:600;display:block}
-.trial-text span{color:rgba(255,255,255,0.45);font-weight:400}
-.checks{display:flex;gap:24px;justify-content:center;margin-top:24px}
-.checks span{display:flex;align-items:center;gap:6px;font-size:13px;color:rgba(255,255,255,0.45);font-weight:400}
-.checks .ck{color:var(--green);font-size:15px}
+.navbar{height:92px;padding:0 5%;display:flex;align-items:center;justify-content:space-between;background:#fff;border-bottom:1px solid #ececec;position:sticky;top:0;z-index:40}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-mark{width:40px;height:40px;flex:none}
+.logo-text{font-family:Georgia,"Times New Roman",serif;font-size:32px;font-weight:700;color:var(--rt-green);letter-spacing:-.01em}
+.logo-text .gold{color:var(--rt-gold)}
+.nav-links{display:flex;gap:38px;align-items:center}
+.nav-links a{color:#151515;text-decoration:none;font-size:16px;font-weight:500}
+.nav-links a:hover{color:var(--rt-green)}
+.nav-actions{display:flex;gap:16px}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 26px;border-radius:6px;font-weight:600;font-size:15px;text-decoration:none;transition:.2s ease;cursor:pointer;font-family:inherit}
+.btn-outline{border:1px solid var(--rt-green);color:var(--rt-green);background:#fff}
+.btn-outline:hover{background:#f4f7f5}
+.btn-primary{background:var(--rt-green);color:#fff;border:1px solid var(--rt-green)}
+.btn-primary:hover{background:var(--rt-green-dark)}
 
-/* VIDEO SECTION — light bg like FleetWage */
-.video-sec{padding:80px 32px;text-align:center;background:var(--white)}
-.video-sec h2{font-size:32px;font-weight:700;color:var(--navy);margin-bottom:4px}
-.video-sec .bar{width:40px;height:3px;background:var(--brand);margin:12px auto 16px;border-radius:2px}
-.video-sec p{font-size:15px;color:var(--gray500);margin-bottom:40px}
-.video-placeholder{max-width:800px;margin:0 auto;background:var(--navy);border-radius:16px;padding:60px;color:rgba(255,255,255,0.5);font-size:15px}
+.hero{min-height:700px;padding:72px 5% 50px;display:grid;grid-template-columns:.9fr 1.1fr;align-items:center;position:relative;overflow:hidden;
+  background:radial-gradient(circle at 82% 45%,rgba(214,168,63,.08),transparent 34%),linear-gradient(100deg,#fbf8f1 0%,#fffdfa 52%,#fff 100%)}
+.hero-content{position:relative;z-index:4;max-width:670px}
+.eyebrow{color:var(--rt-green);font-size:14px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;margin-bottom:22px}
+.hero h1{margin:0;font-family:Georgia,"Times New Roman",serif;font-size:clamp(50px,5.3vw,92px);line-height:.94;letter-spacing:-.045em;font-weight:700}
+.hero h1 .green{color:var(--rt-green)}
+.hero h1 .gold-dot{color:var(--rt-gold)}
+.gold-line{width:95px;height:3px;background:var(--rt-gold);margin:34px 0 26px}
+.hero-description{max-width:590px;color:#222;font-size:20px;line-height:1.55;margin:0}
+.hero-buttons{display:flex;gap:18px;margin-top:32px;flex-wrap:wrap}
+.hero-buttons .btn{min-height:58px;padding:0 30px;font-size:17px}
+.trust-row{display:flex;gap:28px;margin-top:26px;color:#252525;font-size:14px;flex-wrap:wrap}
+.trust-item::before{content:"✓";display:inline-grid;place-items:center;width:18px;height:18px;margin-right:8px;border:2px solid var(--rt-gold);border-radius:50%;color:var(--rt-gold);font-size:11px;font-weight:800;vertical-align:-3px}
 
-/* FEATURES — light bg */
-.features{padding:80px 32px;background:var(--gray50)}
-.features-inner{max-width:1100px;margin:0 auto}
-.sec-label{font-size:12px;color:var(--brand);text-transform:uppercase;letter-spacing:2px;font-weight:600;margin-bottom:8px}
-.sec-title{font-size:36px;font-weight:700;color:var(--navy);letter-spacing:-1px;margin-bottom:14px}
-.sec-sub{font-size:15px;color:var(--gray500);line-height:1.7;max-width:540px;margin-bottom:48px}
-.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.feat-card{background:var(--white);border:1px solid var(--gray200);border-radius:12px;padding:28px;transition:all 0.2s}
-.feat-card:hover{border-color:var(--brand);box-shadow:0 4px 20px rgba(66,83,240,0.08);transform:translateY(-2px)}
-.feat-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:16px;background:rgba(66,83,240,0.08)}
-.feat-card h3{font-size:16px;font-weight:700;color:var(--navy);margin-bottom:6px}
-.feat-card p{font-size:13px;color:var(--gray500);line-height:1.65}
+.hero-visual{position:relative;min-height:610px;z-index:2}
+.dashboard-card{position:absolute;width:82%;right:0;top:20px;border-radius:14px;background:#fff;border:1px solid rgba(6,77,50,.08);box-shadow:0 30px 80px rgba(10,35,25,.14),0 5px 20px rgba(0,0,0,.05);transform:rotate(-1.5deg);overflow:hidden}
+.dash-top{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid #eef1ee}
+.dash-crumb{font-size:12px;color:var(--rt-muted)}
+.dash-pill{font-size:11px;color:var(--rt-muted);border:1px solid var(--rt-border);border-radius:6px;padding:5px 10px}
+.dash-body{padding:16px 18px 20px}
+.dash-h{font-size:19px;font-weight:700;margin:0 0 14px}
+.dash-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.dm{border:1px solid var(--rt-border);border-radius:10px;padding:11px 12px}
+.dm-l{font-size:10px;color:var(--rt-muted);text-transform:uppercase;letter-spacing:.08em}
+.dm-v{font-size:19px;font-weight:700;margin-top:5px}
+.dm-v.green{color:var(--rt-green)}
+.dash-split{display:grid;grid-template-columns:1fr;gap:10px;margin-top:12px}
+.dash-break{border:1px solid var(--rt-border);border-radius:10px;padding:12px 14px}
+.dash-break h4{margin:0 0 10px;font-size:12px;font-weight:600}
+.brk{display:flex;align-items:center;justify-content:space-between;font-size:12px;padding:3px 0;color:#333}
+.brk .k{display:flex;align-items:center;gap:7px}
+.dot{width:8px;height:8px;border-radius:50%;flex:none}
+.dash-note{margin-top:10px;font-size:10px;color:var(--rt-muted);text-align:right;letter-spacing:.04em}
 
-/* HOW IT WORKS — white bg */
-.how{padding:80px 32px;background:var(--white)}
-.how-inner{max-width:900px;margin:0 auto;text-align:center}
-.steps{display:flex;gap:32px;margin-top:48px;text-align:left}
-.step{flex:1;position:relative}
-.step-num{width:36px;height:36px;border-radius:50%;background:var(--brand);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:var(--white);margin-bottom:14px}
-.step h3{font-size:16px;font-weight:700;color:var(--navy);margin-bottom:6px}
-.step p{font-size:13px;color:var(--gray500);line-height:1.65}
-.step-line{position:absolute;top:18px;left:44px;right:-24px;height:1.5px;background:linear-gradient(90deg,var(--brand),transparent);opacity:0.2}
+.hero-truck{position:absolute;z-index:5;width:88%;max-width:720px;left:-4%;bottom:-15px;filter:drop-shadow(0 30px 25px rgba(0,0,0,.18))}
 
-/* COMPARE — light bg */
-.compare{padding:80px 32px;background:var(--gray50)}
-.compare-inner{max-width:900px;margin:0 auto}
-.compare table{width:100%;border-collapse:collapse;background:var(--white);border-radius:12px;overflow:hidden;border:1px solid var(--gray200)}
-.compare th{padding:14px 20px;text-align:left;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--gray400);background:var(--gray50);border-bottom:1px solid var(--gray200)}
-.compare th:last-child{color:var(--brand)}
-.compare td{padding:13px 20px;border-bottom:1px solid var(--gray100);font-size:13px;color:var(--gray500)}
-.compare td:first-child{font-weight:600;color:var(--navy)}
-.compare .y{color:var(--green);font-weight:600}
-.compare .n{color:var(--gray400);opacity:0.5}
+.trust-strip{background:var(--rt-green);color:#fff;padding:28px 5% 34px}
+.trust-heading{text-align:center;color:var(--rt-gold);font-size:13px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;margin-bottom:25px}
+.trust-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:32px;max-width:1300px;margin:0 auto}
+.trust-feature{display:flex;align-items:center;gap:14px}
+.trust-icon{color:var(--rt-gold);font-size:28px;line-height:1}
+.trust-feature strong{display:block;margin-bottom:4px;font-size:15px}
+.trust-feature span{font-size:14px;opacity:.85}
 
-/* CTA — dark section at bottom */
-.final-cta{padding:100px 32px;text-align:center;background:var(--navy);background:linear-gradient(to right bottom,var(--navy),rgba(66,83,240,0.12))}
-.final-cta .sec-label{color:var(--brand2)}
-.final-cta h2{font-size:36px;font-weight:700;color:var(--white);letter-spacing:-1px;margin-bottom:14px}
-.final-cta p{font-size:15px;color:rgba(255,255,255,0.6);margin-bottom:36px;max-width:460px;margin-left:auto;margin-right:auto;line-height:1.7}
-.email-form{display:flex;gap:10px;max-width:400px;margin:0 auto}
-.email-form input{flex:1;padding:12px 18px;border-radius:8px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.06);color:#fff;font-size:14px;font-family:'Poppins',sans-serif;outline:none}
-.email-form input:focus{border-color:var(--brand)}
-.email-form input::placeholder{color:rgba(255,255,255,0.3)}
+section.band{padding:88px 5%}
+.band-inner{max-width:1200px;margin:0 auto}
+.sec-label{font-size:13px;color:var(--rt-green);text-transform:uppercase;letter-spacing:.18em;font-weight:700;margin-bottom:10px}
+.sec-title{font-family:Georgia,"Times New Roman",serif;font-size:clamp(34px,3.4vw,48px);line-height:1.04;letter-spacing:-.03em;margin:0 0 16px;font-weight:700}
+.sec-sub{font-size:18px;color:#3a3d3a;line-height:1.6;max-width:640px;margin:0 0 44px}
+.bg-white{background:#fff}
 
-/* FOOTER */
-footer{padding:32px;border-top:1px solid var(--gray100);display:flex;justify-content:space-between;align-items:center;background:var(--white)}
-footer .co{font-size:12px;color:var(--gray400)}
-footer .fl a{color:var(--gray400);text-decoration:none;font-size:12px;margin-left:20px}
-footer .fl a:hover{color:var(--gray600)}
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.feat-card{background:#fff;border:1px solid var(--rt-border);border-radius:12px;padding:30px 28px;transition:.2s}
+.feat-card:hover{border-color:var(--rt-green);transform:translateY(-2px)}
+.feat-ico{width:44px;height:44px;border-radius:10px;background:rgba(6,77,50,.07);display:grid;place-items:center;margin-bottom:16px;color:var(--rt-green)}
+.feat-card h3{margin:0 0 8px;font-size:18px;font-weight:700}
+.feat-card p{margin:0;font-size:14.5px;color:#4a4d4a;line-height:1.65}
 
-/* FLOATING CTA */
-.float-cta{position:fixed;bottom:24px;right:24px;z-index:90}
-.float-cta button{padding:12px 24px;border-radius:10px;border:none;font-size:14px;font-weight:600;font-family:'Poppins',sans-serif;cursor:pointer;background:var(--brand);color:var(--white);box-shadow:0 4px 20px rgba(66,83,240,0.4);display:flex;align-items:center;gap:8px;transition:all 0.2s}
-.float-cta button:hover{transform:translateY(-2px);box-shadow:0 6px 28px rgba(66,83,240,0.5)}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+.step{padding-top:22px;border-top:3px solid var(--rt-gold)}
+.step .n{font-family:Georgia,serif;font-size:34px;font-weight:700;color:var(--rt-green);line-height:1}
+.step h3{margin:12px 0 8px;font-size:19px;font-weight:700}
+.step p{margin:0;font-size:15px;color:#4a4d4a;line-height:1.65}
 
-@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-.hero-inner>*{animation:fadeUp 0.6s ease forwards;opacity:0}
-.hero-inner>*:nth-child(1){animation-delay:0s}.hero-inner>*:nth-child(2){animation-delay:.1s}.hero-inner>*:nth-child(3){animation-delay:.2s}.hero-inner>*:nth-child(4){animation-delay:.3s}.hero-inner>*:nth-child(5){animation-delay:.4s}.hero-inner>*:nth-child(6){animation-delay:.5s}
+.cmp-wrap{overflow-x:auto;border:1px solid var(--rt-border);border-radius:12px;background:#fff}
+table.cmp{border-collapse:collapse;width:100%;min-width:640px;font-size:15px}
+table.cmp th,table.cmp td{padding:16px 20px;text-align:left;border-bottom:1px solid #edf0ed}
+table.cmp thead th{background:var(--rt-green);color:#fff;font-weight:600;font-size:14px;border-bottom:none}
+table.cmp thead th:last-child{color:var(--rt-gold)}
+table.cmp td:last-child{color:var(--rt-green);font-weight:600}
+table.cmp tbody tr:last-child td{border-bottom:none}
+.x{color:#b9bdb9}
 
-@media(max-width:768px){.nav-links{display:none}.hero h1{font-size:34px}.hero{padding:80px 0}.feat-grid{grid-template-columns:1fr}.steps{flex-direction:column}.step-line{display:none}.compare th,.compare td{padding:10px 12px;font-size:11px}.email-form{flex-direction:column}.checks{flex-direction:column;align-items:center;gap:8px}footer{flex-direction:column;gap:12px;text-align:center}.float-cta{bottom:16px;right:16px}}
+.video-band{background:#fff;padding:88px 5%;text-align:center}
+.video-frame{max-width:900px;margin:34px auto 0;aspect-ratio:16/9;border-radius:14px;overflow:hidden;border:1px solid var(--rt-border);background:#000}
+.video-frame iframe{width:100%;height:100%;border:0;display:block}
+
+.cta{background:var(--rt-green);color:#fff;padding:92px 5%;text-align:center}
+.cta h2{font-family:Georgia,serif;font-size:clamp(36px,4vw,58px);margin:0 0 14px;letter-spacing:-.03em;font-weight:700}
+.cta h2 .gold-dot{color:var(--rt-gold)}
+.cta p{font-size:18px;opacity:.85;margin:0 auto 34px;max-width:560px;line-height:1.6}
+.cta .btn-gold{background:var(--rt-gold);border:1px solid var(--rt-gold);color:#1d1601;min-height:58px;padding:0 34px;font-size:17px}
+.cta .btn-gold:hover{background:#c99a32}
+.cta .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,.5);color:#fff;min-height:58px;padding:0 30px;font-size:17px}
+.cta .btn-ghost:hover{background:rgba(255,255,255,.08)}
+.cta-buttons{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.cta-fine{margin-top:22px;font-size:13.5px;opacity:.65}
+
+footer{background:#032e1e;color:rgba(255,255,255,.7);padding:40px 5%;font-size:14px}
+.foot-inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+footer a{color:rgba(255,255,255,.8);text-decoration:none;margin-left:26px}
+footer a:hover{color:var(--rt-gold)}
+
+@media(max-width:1100px){
+  .nav-links{display:none}
+  .hero{grid-template-columns:1fr;padding-top:55px}
+  .hero-content{max-width:760px}
+  .hero-visual{margin-top:40px;min-height:520px}
+  .dashboard-card{width:85%}
+  .hero-truck{width:78%;left:5%}
+  .trust-grid{grid-template-columns:repeat(2,1fr)}
+  .feat-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:700px){
+  .top-bar .signin-top{display:none}
+  .navbar{height:76px;padding:0 22px}
+  .logo-text{font-size:26px}
+  .nav-actions .btn-outline{display:none}
+  .hero{padding:45px 22px 20px}
+  .hero h1{font-size:46px}
+  .hero-description{font-size:17px}
+  .hero-buttons{flex-direction:column}
+  .hero-buttons .btn{width:100%}
+  .trust-row{flex-direction:column;gap:10px}
+  .hero-visual{min-height:420px}
+  .dashboard-card{width:98%}
+  .dash-metrics{grid-template-columns:repeat(2,1fr)}
+  .hero-truck{width:95%;left:-2%}
+  .trust-grid{grid-template-columns:1fr}
+  .feat-grid,.steps{grid-template-columns:1fr}
+  section.band{padding:60px 22px}
+}
 </style>
 </head>
 <body>
 
-<!-- NAV: White bg, dark text — exactly like FleetWage -->
-<header>
-<div class="nav-inner">
-<a href="/" class="logo"><div class="logo-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg></div><span class="logo-text">Route<span>Truth</span></span></a>
-<div class="nav-links"><a href="#features">Features</a><a href="#how">How It Works</a><a href="#compare">Compare</a><a href="https://tnt-logistics-six.vercel.app" class="signin">Sign In</a><button class="btn-cta" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">Book a Demo</button></div>
+<div class="top-bar">
+  <span class="star">★</span>Built for FedEx Independent Service Providers
+  <a class="signin-top" href="https://tnt-logistics-six.vercel.app">Sign In</a>
 </div>
-</header>
 
-<!-- HERO: Dark navy with animated gradient -->
-<section class="hero"><div class="hero-inner">
-<div class="badge"><span class="dot"></span> Profit Intelligence Platform</div>
-<h1>Stop guessing what your routes actually <em>make.</em></h1>
-<p>RouteTruth connects your FedEx settlement to driver pay and shows you the profit per driver, per route, per day. Built for ISP contractors who want the truth.</p>
-<div class="hero-cta"><button class="btn-hero" onclick="window.location.href='https://tnt-logistics-six.vercel.app'">Get Started. It's FREE!</button><div class="trial-text"><strong>14-day free trial</strong><span>No credit card required</span></div></div>
-<div class="checks"><span><span class="ck">&#10003;</span> No setup fees</span><span><span class="ck">&#10003;</span> Cancel anytime</span><span><span class="ck">&#10003;</span> Unlimited drivers</span></div>
-</div></section>
+<nav class="navbar">
+  <a class="logo" href="/">
+    <svg class="logo-mark" viewBox="0 0 40 40" aria-hidden="true">
+      <path d="M8 33V9h11a8 8 0 0 1 0 16h-4" fill="none" stroke="#064d32" stroke-width="5" stroke-linecap="square"/>
+      <path d="M19 24l12 9" fill="none" stroke="#d6a83f" stroke-width="5" stroke-linecap="square"/>
+    </svg>
+    <span class="logo-text">Route<span class="gold">Truth</span></span>
+  </a>
+  <div class="nav-links">
+    <a href="#features">Product</a>
+    <a href="#how">How It Works</a>
+    <a href="#compare">Compare</a>
+    <a href="#demo">Demo</a>
+  </div>
+  <div class="nav-actions">
+    <a class="btn btn-outline" href="https://tnt-logistics-six.vercel.app">Sign In</a>
+    <a class="btn btn-primary" href="https://tnt-logistics-six.vercel.app">Start Free Trial</a>
+  </div>
+</nav>
 
-<!-- VIDEO / DEMO -->
-<section class="video-sec">
-<h2>See RouteTruth in Action</h2>
-<div class="bar"></div>
-<p>Watch how RouteTruth gives ISP contractors the truth about their routes.</p>
-<div style="max-width:800px;margin:0 auto;border-radius:16px;overflow:hidden;aspect-ratio:16/9"><iframe width="100%" height="100%" src="https://www.youtube.com/embed/SAl8_ZAQ9Jg" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen style="border-radius:16px"></iframe></div>
+<section class="hero">
+  <div class="hero-content">
+    <div class="eyebrow">Financial Truth For Your Routes</div>
+    <h1>Stop Guessing<br>What Your<br><span class="green">Routes Make<span class="gold-dot">.</span></span></h1>
+    <div class="gold-line"></div>
+    <p class="hero-description">Turn your FedEx settlement and operating data into daily profit intelligence for every route, driver, and day.</p>
+    <div class="hero-buttons">
+      <a class="btn btn-primary" href="https://tnt-logistics-six.vercel.app">Start Your Free Trial →</a>
+      <a class="btn btn-outline" href="#how">See How It Works</a>
+    </div>
+    <div class="trust-row">
+      <span class="trust-item">14-Day Free Trial</span>
+      <span class="trust-item">No Credit Card</span>
+      <span class="trust-item">Cancel Anytime</span>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="dashboard-card">
+      <div class="dash-top">
+        <div class="dash-crumb">Routes › Route 214</div>
+        <div class="dash-pill">Tue, May 20</div>
+      </div>
+      <div class="dash-body">
+        <h3 class="dash-h">Route 214 — Tuesday</h3>
+        <div class="dash-metrics">
+          <div class="dm"><div class="dm-l">Revenue</div><div class="dm-v green">$1,842.50</div></div>
+          <div class="dm"><div class="dm-l">Total Cost</div><div class="dm-v">$942.30</div></div>
+          <div class="dm"><div class="dm-l">Net Profit</div><div class="dm-v green">$900.20</div></div>
+          <div class="dm"><div class="dm-l">Margin</div><div class="dm-v green">48.9%</div></div>
+        </div>
+        <div class="dash-split">
+          <div class="dash-break">
+            <h4>Cost Breakdown</h4>
+            <div class="brk"><span class="k"><span class="dot" style="background:#064d32"></span>Labor</span><span>$612.40 &nbsp;(65.0%)</span></div>
+            <div class="brk"><span class="k"><span class="dot" style="background:#d6a83f"></span>Vehicle</span><span>$184.10 &nbsp;(19.5%)</span></div>
+            <div class="brk"><span class="k"><span class="dot" style="background:#8fb89f"></span>Fuel</span><span>$145.80 &nbsp;(15.5%)</span></div>
+          </div>
+        </div>
+        <div class="dash-note">SAMPLE DATA — ILLUSTRATION ONLY</div>
+      </div>
+    </div>
+    <img class="hero-truck" src="/images/routetruth-truck.png" alt="Delivery step van" loading="eager" width="1021" height="601">
+  </div>
 </section>
 
-<!-- FEATURES -->
-<section class="features" id="features"><div class="features-inner">
-<div class="sec-label">Built for Fleet Operations</div>
-<div class="sec-title">Everything you need to run your ISP.</div>
-<div class="sec-sub">Purpose-built tools that handle the complexity of FedEx ISP operations so you can focus on growing your business.</div>
-<div class="feat-grid">
-<div class="feat-card"><div class="feat-icon">&#128176;</div><h3>Settlement Revenue per Driver</h3><p>Your exact ISPA rate card parsed per driver per day. eCommerce, non-eCommerce, fuel surcharge, large package &mdash; every penny allocated.</p></div>
-<div class="feat-card"><div class="feat-icon">&#128200;</div><h3>Route P&amp;L</h3><p>Revenue minus labor equals margin. See which work areas make money and which cost you. Drill down to daily detail.</p></div>
-<div class="feat-card"><div class="feat-icon">&#128101;</div><h3>Staffing Intelligence</h3><p>Driver tier classification (T1-T4), day-of-week deployment, utilization rates, and actionable recommendations.</p></div>
-<div class="feat-card"><div class="feat-icon">&#128666;</div><h3>Fleet Intel</h3><p>15 modules: replacement scoring, lease vs buy, maintenance budgets, DVIR compliance, fuel economy, process costs.</p></div>
-<div class="feat-card"><div class="feat-icon">&#9888;&#65039;</div><h3>DNA &amp; Service Quality</h3><p>Track DNAs per driver, Code 85s, cost per service failure. Coaching conversations that save $30K-90K/year.</p></div>
-<div class="feat-card"><div class="feat-icon">&#128279;</div><h3>QuickBooks Bridge</h3><p>The missing link. Settlement &rarr; payroll &rarr; chart of accounts. Full loop from FedEx to your bank.</p></div>
-</div></div></section>
+<div class="trust-strip">
+  <div class="trust-heading">Built by ISPs, for ISPs</div>
+  <div class="trust-grid">
+    <div class="trust-feature"><span class="trust-icon">◆</span><div><strong>Built Specifically</strong><span>for ISP Businesses</span></div></div>
+    <div class="trust-feature"><span class="trust-icon">▲</span><div><strong>Your Data Stays Yours</strong><span>Per-CSA isolation</span></div></div>
+    <div class="trust-feature"><span class="trust-icon">●</span><div><strong>Live in 60 Seconds</strong><span>Upload two files you already have</span></div></div>
+    <div class="trust-feature"><span class="trust-icon">■</span><div><strong>Real People</strong><span>Real Support</span></div></div>
+  </div>
+</div>
 
-<!-- HOW IT WORKS -->
-<section class="how" id="how"><div class="how-inner">
-<div class="sec-label">How It Works</div>
-<div class="sec-title">Live in 60 seconds.</div>
-<div class="sec-sub" style="margin:0 auto 48px;text-align:center">Upload two files you already have. See your entire operation instantly.</div>
-<div class="steps">
-<div class="step"><div class="step-line"></div><div class="step-num">1</div><h3>Upload your Weekly Service Worksheet</h3><p>The weekly worksheet from FedEx. We parse every driver, every stop, every package.</p></div>
-<div class="step"><div class="step-line"></div><div class="step-num">2</div><h3>Upload your Settlement</h3><p>Your charge statement. We apply your ISPA rate card and calculate revenue per driver per day.</p></div>
-<div class="step"><div class="step-num">3</div><h3>See the truth</h3><p>Route P&amp;L, driver tiers, fleet health &mdash; your entire operation in one dashboard.</p></div>
-</div></div></section>
+<section class="band" id="features">
+  <div class="band-inner">
+    <div class="sec-label">Built for Fleet Operations</div>
+    <h2 class="sec-title">Everything you need to run your ISP.</h2>
+    <p class="sec-sub">Purpose-built tools that handle the complexity of FedEx ISP operations so you can focus on running the business.</p>
+    <div class="feat-grid">
+      <div class="feat-card"><div class="feat-ico">$</div><h3>Settlement Revenue per Driver</h3><p>Your exact ISPA rate card parsed per driver per day. eCommerce, non-eCommerce, fuel surcharge, large package — every penny allocated.</p></div>
+      <div class="feat-card"><div class="feat-ico">◱</div><h3>Route P&amp;L</h3><p>Revenue minus labor equals margin. See which work areas make money and which cost you. Drill down to daily detail.</p></div>
+      <div class="feat-card"><div class="feat-ico">◇</div><h3>Staffing Intelligence</h3><p>Driver tier classification, day-of-week deployment, utilization rates, and actionable recommendations.</p></div>
+      <div class="feat-card"><div class="feat-ico">▤</div><h3>Fleet Intel</h3><p>Replacement scoring, lease vs buy, maintenance budgets, DVIR compliance, fuel economy, and process costs.</p></div>
+      <div class="feat-card"><div class="feat-ico">!</div><h3>Service Quality</h3><p>Track DNAs per driver, Code 85s, and cost per service failure — so coaching conversations start from a number.</p></div>
+      <div class="feat-card"><div class="feat-ico">⇄</div><h3>QuickBooks Bridge</h3><p>The missing link. Settlement → payroll → chart of accounts. Full loop from FedEx to your books.</p></div>
+    </div>
+  </div>
+</section>
 
-<!-- COMPARE -->
-<section class="compare" id="compare"><div class="compare-inner">
-<div class="sec-label">Why RouteTruth</div>
-<div class="sec-title">The gap nobody else fills.</div>
-<div class="sec-sub">Payroll tools tell you what goes out. RouteTruth tells you what comes in, what goes out, and what's left.</div>
-<table><thead><tr><th>Capability</th><th>Spreadsheets</th><th>Payroll Tools</th><th>RouteTruth</th></tr></thead>
-<tbody>
-<tr><td>Settlement revenue per driver</td><td class="n">&times;</td><td class="n">&times;</td><td class="y">&#10003; Exact</td></tr>
-<tr><td>Route-level P&amp;L</td><td class="n">Manual</td><td class="n">&times;</td><td class="y">&#10003; Automated</td></tr>
-<tr><td>ISPA rate card calculation</td><td class="n">&times;</td><td class="n">&times;</td><td class="y">&#10003; Per driver/day</td></tr>
-<tr><td>Staffing intelligence</td><td class="n">&times;</td><td class="n">&times;</td><td class="y">&#10003; T1-T4 tiers</td></tr>
-<tr><td>Fleet replacement scoring</td><td class="n">&times;</td><td class="n">&times;</td><td class="y">&#10003; 0-100</td></tr>
-<tr><td>QuickBooks integration</td><td class="n">Manual</td><td>Export only</td><td class="y">&#10003; Full bridge</td></tr>
-<tr><td>Setup time</td><td>Hours</td><td>Days</td><td style="color:var(--orange);font-weight:600">60 seconds</td></tr>
-</tbody></table>
-</div></section>
+<section class="band bg-white" id="how">
+  <div class="band-inner">
+    <div class="sec-label">How It Works</div>
+    <h2 class="sec-title">Live in 60 seconds.</h2>
+    <p class="sec-sub">Upload two files you already have. See your entire operation.</p>
+    <div class="steps">
+      <div class="step"><div class="n">1</div><h3>Upload your Weekly Service Worksheet</h3><p>The weekly worksheet from FedEx. We parse every driver, every stop, every package.</p></div>
+      <div class="step"><div class="n">2</div><h3>Upload your Settlement</h3><p>Your charge statement. We apply your ISPA rate card and calculate revenue per driver per day.</p></div>
+      <div class="step"><div class="n">3</div><h3>See the truth</h3><p>Route P&amp;L, driver tiers, fleet health — your entire operation in one dashboard.</p></div>
+    </div>
+  </div>
+</section>
 
-<!-- FINAL CTA -->
-<section class="final-cta" id="cta"><div>
-<div class="sec-label">Launching Summer 2026</div>
-<h2>Know what's left.</h2>
-<p>Get early access and be first to see the truth about your routes.</p>
-<div class="email-form"><input type="email" placeholder="Enter your email"><button class="btn-cta" style="padding:12px 24px">Get Early Access</button></div>
-<div style="font-size:11px;color:rgba(255,255,255,0.3);margin-top:12px">No credit card &middot; No spam &middot; Just early access</div>
-</div></section>
+<section class="band" id="compare">
+  <div class="band-inner">
+    <div class="sec-label">Why RouteTruth</div>
+    <h2 class="sec-title">The gap nobody else fills.</h2>
+    <p class="sec-sub">Payroll tools tell you what goes out. RouteTruth tells you what comes in, what goes out, and what's left — at route and work-area grain.</p>
+    <div class="cmp-wrap">
+      <table class="cmp">
+        <thead><tr><th>Capability</th><th>Spreadsheets</th><th>Payroll Tools</th><th>RouteTruth</th></tr></thead>
+        <tbody>
+          <tr><td>Settlement revenue per driver</td><td class="x">×</td><td class="x">×</td><td>Exact</td></tr>
+          <tr><td>Route-level P&amp;L</td><td>Manual</td><td class="x">×</td><td>Automated</td></tr>
+          <tr><td>ISPA rate card calculation</td><td class="x">×</td><td class="x">×</td><td>Per driver / day</td></tr>
+          <tr><td>Work-area grain</td><td>Manual</td><td class="x">×</td><td>Built in</td></tr>
+          <tr><td>Fleet replacement scoring</td><td class="x">×</td><td class="x">×</td><td>0–100</td></tr>
+          <tr><td>QuickBooks integration</td><td>Manual</td><td>Export only</td><td>Full bridge</td></tr>
+          <tr><td>Setup time</td><td>Hours</td><td>Days</td><td>60 seconds</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
 
-<footer><div class="co">&copy; 2026 RouteTruth. All rights reserved.</div><div class="fl"><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Contact</a></div></footer>
+<section class="video-band" id="demo">
+  <div class="sec-label">See It Run</div>
+  <h2 class="sec-title">RouteTruth in action.</h2>
+  <div class="video-frame">
+    <iframe src="https://www.youtube.com/embed/SAl8_ZAQ9Jg" title="RouteTruth product walkthrough" allowfullscreen loading="lazy"></iframe>
+  </div>
+</section>
 
-<!-- Floating CTA -->
-<div class="float-cta"><button onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">&#128197; Schedule Your Free Demo</button></div>
+<section class="cta">
+  <h2>Know what's left<span class="gold-dot">.</span></h2>
+  <p>Start your trial and see the profit on every route, driver, and day this week.</p>
+  <div class="cta-buttons">
+    <a class="btn btn-gold" href="https://tnt-logistics-six.vercel.app">Start Your Free Trial</a>
+    <a class="btn btn-ghost" href="#how">See How It Works</a>
+  </div>
+  <div class="cta-fine">14-day free trial · No credit card required · Cancel anytime</div>
+</section>
+
+<footer>
+  <div class="foot-inner">
+    <div>© 2026 RouteTruth LLC. All rights reserved.</div>
+    <div><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a href="https://tnt-logistics-six.vercel.app">Sign In</a></div>
+  </div>
+</footer>
 
 </body>
 </html>
